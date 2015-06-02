@@ -107,7 +107,7 @@ int main(){
 	
 
 //_filling of the original data
-	for (int q=0; q<T; q++){
+	for (int q=0; q<=T; q++){     //iznachalno do  T vkluchitelno, no potom pomenyal na q+1 I stal vihod za predeli massiva
 
 		if (!q){
 			for (int i = 0; i <= H; i++) {
@@ -140,7 +140,7 @@ int main(){
 					betta[i]=(d-c*betta[i-1])/(b+c*alfa[i-1]);
 				}
 				U[0][j]=0;
-				U[H][j]=analit(1,j*f,(q+1)*t);
+				U[H][j]=analit(1,j*f,q*t);
 				for(int i=H-1;i>=1;i--){
 					U[i][j]=alfa[i]*U[i+1][j]+betta[i];
 				}
@@ -158,7 +158,7 @@ int main(){
 					betta[j]=(d-c*betta[j-1])/(b+c*alfa[j-1]);
 				}
 				U1[i][F]=0;
-				U1[i][0]=analit(i*h,0,(q+1)*t);
+				U1[i][0]=analit(i*h,0,q*t);//mozhet tut oshibka
 				for(int j=F-1;j>=1;j--){
 					U1[i][j]=alfa[i]*U[i+1][j]+betta[i];
 				}
@@ -283,7 +283,8 @@ int main(){
 		}
 	}*/
 	cout << "maxDiff=" << maxDiff << endl;
-	system("pause");
+cin>>px;
+//		system("pause");
 /*	// end:
 	// cout << "do you want recalc in another point? ";
 	cout << "do you want double step?   ";
