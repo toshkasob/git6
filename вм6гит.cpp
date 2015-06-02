@@ -132,8 +132,8 @@ int main(){
 				alfa[0]=0;
 				betta[0]=0;
 				for (int i=1;i<=H-1;i++){
-					float a=-h*(i+0.5)*(pow(uk[i+1][j],mu)+pow(uk[i][j],mu))*t*q/(2*(i*h)*h*h);
-					float c=-h*(i-0.5)*(pow(uk[i][j],mu)+pow(uk[i-1][j],mu))*t*q/(2*(i*h)*h*h);
+					float a=-h*(i+0.5)*(pow(uk[i+1][j],mu)+pow(uk[i][j],mu))*t/(2*(i*h)*h*h);
+					float c=-h*(i-0.5)*(pow(uk[i][j],mu)+pow(uk[i-1][j],mu))*t/(2*(i*h)*h*h);
 					float b=1-a-c;
 					float d=un[i][j];
 					alfa[i]=-a/(b+c*alfa[i-1]);
@@ -229,7 +229,7 @@ int main(){
 				if (j==-1)
 					cout << setw(columnWidth/2) << "r=" << i*h;
 				else
-					cout << setw(columnWidth) << un[i*h][j*f];
+					cout << setw(columnWidth) << un[i][j];
 			}
 		}
 		cout<<endl;
@@ -248,7 +248,7 @@ int main(){
 				if (j==-1)
 					cout << setw(columnWidth/2) << "r=" << i*h;
 				else {
-					float diff=fabs(un[i*h][j*f]-analit(i*h,j*f,1));
+					float diff=fabs(un[i][j]-analit(i*h,j*f,1));
 					if (maxDiff < diff){
 						maxDiff = diff;
 					}
