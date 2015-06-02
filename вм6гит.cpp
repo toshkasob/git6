@@ -19,11 +19,11 @@
 using namespace std;
 
 int H, T, F;
-float h, t, f;					// step by r, t, fi
-float mu, Ct, delta, tT, fF;			//tT=t*T:0<t<tT		//fF=f*F:0<f<fF		//delta is used to standart tT=1
+double h, t, f;					// step by r, t, fi
+double mu, Ct, delta, tT, fF;			//tT=t*T:0<t<tT		//fF=f*F:0<f<fF		//delta is used to standart tT=1
 enum WherePoint
 { inside, outside };
-float analit(float x, float f, float y)
+double analit(double x, double f, double y)
 {
 	WherePoint flag;
 	flag = (x < 0 || x > 1 || f < 0 || f > PI / 1.9 || y < 0 || y > 1) ? outside : inside;
@@ -51,20 +51,23 @@ int main(){
 	cout.setf(ios::showpos);
 	char restart = 'n';
 	mu=2; Ct=5;
-	H = 5;
-	T = 5;
-	F = 5;
+	H = 20;
+	T = 200;
+	F = 20;
 	delta=1./4.;
 	tT=Ct*mu/(2*mu+2*2)-delta;
 	fF=PI/2;
-	float maxEps = 0;
+	double maxEps = 0;
   start:
 	t = tT / T;
+	cout<<"t="<<t<<endl;
 	h = 1. / H;
+	cout<<"h="<<h<<endl;
 	f = fF / F;
-	float px, py;
+	cout<<"f="<<f<<endl;
+	double px, py;
 	/* { cout << "enter the point x="; cin >> px; cout << " y="; cin >> py;
-	   cout << endl; float mindSolution = analit(px, py); // sled if
+	   cout << endl; double mindSolution = analit(px, py); // sled if
 	   (mindSolution == -10) { cout << "error. аналитическое
 	   решение не может быть найдено... конец
 	   программы" << endl; return 1; } else { cout << "mindSolution=" 
@@ -72,7 +75,7 @@ int main(){
 
 	   } */
 
-/*	vector < float > mindSolutionAtT(H + 1);		//budet vichislyat'sya pered vivodom
+/*	vector < double > mindSolutionAtT(H + 1);		//budet vichislyat'sya pered vivodom
 	for (int i = 0; i <= H; i++)
 	{
 		try
@@ -88,15 +91,15 @@ int main(){
 	}
 	cout << endl;
 */
-	vector <float> alfa(H+1);
-	vector <float> betta(H+1);
-//	vector <float> cl(H+1);
-//vector <float> dl(H+1);
+	vector <double> alfa(H+1);
+	vector <double> betta(H+1);
+//	vector <double> cl(H+1);
+//vector <double> dl(H+1);
 	
-	vector < vector  < float > > un(H + 1);
-	vector < vector  < float > > uk(H + 1);
-	vector < vector  < float > > U(H + 1);
-	vector < vector  < float > > U1(H + 1);
+	vector < vector  < double > > un(H + 1);
+	vector < vector  < double > > uk(H + 1);
+	vector < vector  < double > > U(H + 1);
+	vector < vector  < double > > U1(H + 1);
 // NB: i*h=xL, q*t=tN, j*f=fi
 	for (int i = 0; i <= H; i++){
 		un[i].resize(F + 1);
@@ -132,10 +135,10 @@ int main(){
 				alfa[0]=0;
 				betta[0]=0;
 				for (int i=1;i<=H-1;i++){
-					float a=-h*(i+0.5)*(pow(uk[i+1][j],mu)+pow(uk[i][j],mu))*t/(2*(i*h)*h*h);
-					float c=-h*(i-0.5)*(pow(uk[i][j],mu)+pow(uk[i-1][j],mu))*t/(2*(i*h)*h*h);
-					float b=1-a-c;
-					float d=un[i][j];
+					double a=-h*(i+0.5)*(pow(uk[i+1][j],mu)+pow(uk[i][j],mu))*t/(2*(i*h)*h*h);
+					double c=-h*(i-0.5)*(pow(uk[i][j],mu)+pow(uk[i-1][j],mu))*t/(2*(i*h)*h*h);
+					double b=1-a-c;
+					double d=un[i][j];
 					alfa[i]=-a/(b+c*alfa[i-1]);
 					betta[i]=(d-c*betta[i-1])/(b+c*alfa[i-1]);
 				}
@@ -150,10 +153,10 @@ int main(){
 				alfa[0]=0;
 				betta[0]=0;
 				for (int j=1;j<=F-1;j++){
-					float a=-(pow(uk[i][j+1],mu)+pow(uk[i][j],mu))*t/(2*(i*h)*(i*h)*f*f);
-					float c=-(pow(uk[i][j],mu)+pow(uk[i][j-1],mu))*t/(2*(i*h)*(i*h)*f*f);
-					float b=1-a-c;
-					float d=U[i][j];
+					double a=-(pow(uk[i][j+1],mu)+pow(uk[i][j],mu))*t/(2*(i*h)*(i*h)*f*f);
+					double c=-(pow(uk[i][j],mu)+pow(uk[i][j-1],mu))*t/(2*(i*h)*(i*h)*f*f);
+					double b=1-a-c;
+					double d=U[i][j];
 					alfa[j]=-a/(b+c*alfa[j-1]);
 					betta[j]=(d-c*betta[j-1])/(b+c*alfa[j-1]);
 				}
@@ -195,7 +198,7 @@ int main(){
 	}
 //______ cout final table:
 	int columnWidth = 10;
-	float maxDiff = 0.;
+	double maxDiff = 0.;
 	cout << endl;
 	cout.precision(4);
 	cout << "_____" << setw(columnWidth*2) << "sled. " << "_____"<< endl ;
@@ -248,7 +251,7 @@ int main(){
 				if (j==-1)
 					cout << setw(columnWidth/2) << "r=" << i*h;
 				else {
-					float diff=fabs(un[i][j]-analit(i*h,j*f,1));
+					double diff=fabs(un[i][j]-analit(i*h,j*f,1));
 					if (maxDiff < diff){
 						maxDiff = diff;
 					}
@@ -266,14 +269,14 @@ int main(){
 	cout << setw(columnWidth) << "difference module. " << endl;
 	for (int i = 0; i <= H; i++)
 	{
-		if (i % (int)pow(2, flagDouble) == 0)
+		if (i % (int)pow(2, flagdouble) == 0)
 		{
 			// cout.width(columnWidth);
 			cout.precision(4);
 			cout << setw(columnWidth / 2) << i * h;
 			cout << setw(columnWidth) << mindSolutionAtT[i];
 			cout << setw(columnWidth) << u[i][T];
-			float diff = abs(u[i][T] - mindSolutionAtT[i]);
+			double diff = abs(u[i][T] - mindSolutionAtT[i]);
 			cout << setw(columnWidth) << diff;
 			if (maxDiff < diff)
 			{
@@ -293,7 +296,7 @@ cin>>px;
 	{
 		T *= 2;
 		H *= 2;
-		flagDouble++;
+		flagdouble++;
 		goto start;
 	}
 */
