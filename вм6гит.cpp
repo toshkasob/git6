@@ -119,12 +119,12 @@ int main(){
 		} else {
 			for (int m=0;m<=F && m<=H;m++){
 				un[0][m]=0;
-				un[m][0]=analit(1,m*f,q*t);
-				un[H][m]=analit(m*h,0,q*t);
+				un[m][0]=analit(m*h,0,q*t);//analit(1,m*f,q*t);
+				un[H][m]=analit(1,m*f,q*t);//analit(m*h,0,q*t);
 				un[m][F]=0;
 				uk[0][m]=0;
-				uk[m][0]=analit(1,m*f,q*t);
-				uk[H][m]=analit(m*h,0,q*t);
+				uk[m][0]=analit(m*h,0,q*t);//analit(1,m*f,q*t);
+				uk[H][m]=analit(1,m*f,q*t);//analit(m*h,0,q*t);
 				uk[m][F]=0;
 			}
 //__the first half-step	
@@ -158,7 +158,7 @@ int main(){
 					betta[j]=(d-c*betta[j-1])/(b+c*alfa[j-1]);
 				}
 				U1[i][F]=0;
-				U1[i][0]=analit(i*h,0,q*t);//mozhet tut oshibka
+				U1[i][0]=analit(i*h,0,q*t);//oshibka v _filling of the original data
 				for(int j=F-1;j>=1;j--){
 					U1[i][j]=alfa[i]*U[i+1][j]+betta[i];
 				}
